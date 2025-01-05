@@ -1,7 +1,7 @@
 # Databricks notebook source
 from pyspark.sql.types import StructType, StructField, StringType, TimestampType, BooleanType
 
-catalog_schema_path = 'databricks_practice.user_data'
+catalog_schema_path = 'databricks_practice.rdl'
 
 schema = StructType([
     StructField("user_id", StringType(), True),
@@ -13,11 +13,11 @@ schema = StructType([
 ])
 
 # File path
-file_path0 = "/Volumes/databricks_practice/user_data/mvol1/0000_part_00"
-file_path1 = "/Volumes/databricks_practice/user_data/mvol1/0001_part_00"
-file_path2 = "/Volumes/databricks_practice/user_data/mvol1/0002_part_00"
-file_path3 = "/Volumes/databricks_practice/user_data/mvol1/0003_part_00"
-file_path4 = "/Volumes/databricks_practice/user_data/mvol1/0004_part_00"
+file_path0 = "/Volumes/databricks_practice/rdl/mvol1/0000_part_00"
+file_path1 = "/Volumes/databricks_practice/rdl/mvol1/0001_part_00"
+file_path2 = "/Volumes/databricks_practice/rdl/mvol1/0002_part_00"
+file_path3 = "/Volumes/databricks_practice/rdl/mvol1/0003_part_00"
+file_path4 = "/Volumes/databricks_practice/rdl/mvol1/0004_part_00"
 
 
 df0 = spark.read.format('csv').option('delimiter', '|').option('header', 'false').schema(schema).load(file_path0)
