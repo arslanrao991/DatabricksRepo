@@ -38,19 +38,24 @@ join databricks_practice.rdl.actions using (user_id);
 
 -- COMMAND ----------
 
--------- E3
-WITH dim_dates AS (
+CREATE TABLE databricks_practice.odl.dim_dates AS 
 	SELECT distinct action_ts ::DATE as date_nk, date_nk ||'|'|| 'id' as date_sk
-        FROM databricks_practice.rdl.actions
-),
-dim_items AS (
+        FROM databricks_practice.rdl.actions;
+
+-- COMMAND ----------
+
+CREATE TABLE databricks_practice.odl.dim_items AS 
       SELECT distinct item_id as item_nk, item_nk ||'|'|| 'id' as item_sk
-        FROM databricks_practice.rdl.actions
-),
-items_posted AS (
+        FROM databricks_practice.rdl.actions;
+
+-- COMMAND ----------
+
+-------- E3 
+CREATE TABLE databricks_practice.odl.fact_item_liquidity AS 
+WITh items_posted AS (
       SELECT item_id, action_ts :: DATE as posted_date, device, b2c
         FROM databricks_practice.rdl.actions a 
-       WHERE action_type = 'P' --and item_id = 'f1f31ba58290fb445473cac13cd7b863'
+        WHERE action_type = 'P' --and item_id = 'f1f31ba58290fb445473cac13cd7b863'
 ),
 fact_item_liquidity AS (
       SELECT 
@@ -76,10 +81,3 @@ SELECT ip.posted_date,
   LEFT JOIN fact_item_liquidity il on ip.item_id=il.item_id
  GROUP BY ip.posted_date
  ORDER BY ip.posted_date
-
-
-      --  select *
-      --  from actions
-      --  where item_id = 'f1f31ba58290fb445473cac13cd7b863'
-      --  group by 1
-      --  having count(1)>2
