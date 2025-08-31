@@ -18,22 +18,23 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-north-1   # change to your region
 
       - name: Sync DAGs
         run: |
-          aws s3 sync dags/ s3://aws-devtest-bucket/airflow/dags/ --delete
+          aws s3 sync Airflow/dags s3://aws-devtest-bucket/airflow/dags/ --delete
 
       - name: Sync CODE
         run: |
-          aws s3 sync sql/ s3://aws-devtest-bucket/airflow/code/ --delete
+          aws s3 sync Airflow/code/ s3://aws-devtest-bucket/airflow/code/ --delete
 
       - name: Sync Plugins
         run: |
-          aws s3 sync plugins/ s3://aws-devtest-bucket/airflow/plugins/ --delete
+          aws s3 sync Airflow/plugins/ s3://aws-devtest-bucket/airflow/plugins/ --delete
 
       - name: Upload requirements.txt
         run: |
           if [ -f requirements.txt ]; then
-            aws s3 cp requirements.txt s3://aws-devtest-bucket/airflow/requirements.txt
+            aws s3 cp Airflow/requirements/requirements.txt s3://aws-devtest-bucket/airflow/requirements.txt
           fi
